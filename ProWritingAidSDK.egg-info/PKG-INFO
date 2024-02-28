@@ -1,0 +1,14 @@
+Metadata-Version: 2.1
+Name: ProWritingAidSDK
+Version: 2.0.0
+Summary: ProWritingAid API V2
+Home-page: 
+Author-email: hello@prowritingaid.com
+Keywords: Swagger,ProWritingAid API V2
+Requires-Dist: urllib3>=1.15
+Requires-Dist: six>=1.10
+Requires-Dist: certifi
+Requires-Dist: python-dateutil
+
+    Official ProWritingAid API Version 2
+    

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>Chatbot</title>
+</head>
+<body>
+    <div id="chat-container">
+        <div id="chat-box"></div>
+        <input type="text" id="user-input" placeholder="Type here..." onkeydown="handleEnter(event)">
+        <button onclick="sendMessage()">Send</button>
+        <button onclick="toggleDarkMode()">Toggle Dark Mode</button>
+        <form id="audio-form" action="/audio" method="post" enctype="multipart/form-data">
+            <input type="file" name="audio_input" accept=".txt, audio/*" multiple>
+            <input type="submit" value="Submit ">
+        </form>
+        <audio id="audio-player" controls style="display: none;"></audio>
+        <button id="recordButton">Record</button>
+        <button id="pauseButton" disabled>Pause</button>
+        <button id="stopButton" disabled>Stop</button>
+        <div id="formats">Format: start recording to see sample rate</div>
+    <p><strong>Recordings:</strong></p>
+    </div>
+    <script src="https://cdn.rawgit.com/mattdiamond/Recorderjs/08e7abd9/dist/recorder.js"></script>
+    <script src="{{ url_for('static', filename='app.js') }}"></script>
+  </body>
+</html>

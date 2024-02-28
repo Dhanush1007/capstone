@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Play Recorded Audio</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  </head>
+  <body>
+    <h1>Play Recorded Audio</h1>
+
+    <audio controls>
+      <source src="{{ url_for('get_audio', filename='output.mp3') }}" type="audio/mpeg">
+      Your browser does not support the audio element.
+  </audio>
+  
+  <audio controls>
+      <source src="{{ url_for('get_audio', filename='file.wav') }}" type="audio/wav">
+      Your browser does not support the audio element.
+  </audio>
+    <h1>{{x}}</h1>
+
+    <button onclick="goToChat()">Go to Chat</button>
+    
+    <script>
+
+var userAudio = document.getElementById('user-audio');
+    var botAudio = document.getElementById('bot-audio');
+
+    
+    userAudio.addEventListener('play', function() {
+        
+        botAudio.pause();
+    });
+
+    // Event listener for bot audio play
+    botAudio.addEventListener('play', function() {
+        // Pause the user audio when bot audio starts playing
+        userAudio.pause();
+    });
+        function goToChat() {
+        // Use fetch to trigger the /delete_files route
+        fetch('/delete_files', {
+            method: 'GET',
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);  // Log the response for debugging
+            window.location.href = '/';  // Redirect to the chat page after deletion
+        })
+        .catch(error => {
+            console.error('Error deleting files:', error);
+            window.location.href = '/';  // Redirect to the chat page even if there's an error
+        });
+    }
+    </script>
+  </body>
+</html>

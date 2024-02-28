@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"> -->
+    <style>body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #f8f9fa;
+        margin: 0;
+        padding: 0;
+    }
+    
+    #audio-container {
+        max-width: 600px;
+        margin: 50px auto;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    
+    audio {
+        width: 100%;
+    }
+    
+    button {
+        width: 100%;
+        padding: 10px;
+        margin-top: 10px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+    
+    button:hover {
+        background-color: #0056b3;
+    }
+    </style>
+    <title>Audio Player</title>
+</head>
+<body>
+
+    <div id="audio-container">
+        <div class="audio-player" id="user-audio-player">
+            <label>User's Input:</label>
+            <audio controls id="user-audio">
+                <source src="{{ url_for('get_audio', filename='user_audio.wav') }}" type="audio/wav">
+      Your browser does not support the audio element.
+  </audio>
+        </div>
+        <div class="audio-player" id="bot-audio-player">
+            <label>Bot Audio:</label>
+            <audio controls id="bot-audio">
+                <source src="{{ url_for('get_audio', filename='output.mp3') }}" type="audio/mpeg">
+                Your browser does not support the audio element.
+            </audio>
+        </div>
+        <h3>{{text}}</h3>
+        <button onclick="goToChat()">Go to Chat</button>
+    </div>
+    
+    <script>
+
+var userAudio = document.getElementById('user-audio');
+    var botAudio = document.getElementById('bot-audio');
+
+    
+    userAudio.addEventListener('play', function() {
+        
+        botAudio.pause();
+    });
+
+    // Event listener for bot audio play
+    botAudio.addEventListener('play', function() {
+        // Pause the user audio when bot audio starts playing
+        userAudio.pause();
+    });
+        function goToChat() {
+        // Use fetch to trigger the /delete_files route
+        fetch('/delete_files', {
+            method: 'GET',
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);  // Log the response for debugging
+            window.location.href = '/';  // Redirect to the chat page after deletion
+        })
+        .catch(error => {
+            console.error('Error deleting files:', error);
+            window.location.href = '/';  // Redirect to the chat page even if there's an error
+        });
+    }
+    </script>
+    
+    </body>
+    </html>
